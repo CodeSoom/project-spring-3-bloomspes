@@ -8,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Getter
-@Builder
 @Entity
 public class Task {
     @Id
@@ -17,6 +16,7 @@ public class Task {
 
     private String title;
 
+    @Builder
     public void changeData(String title) {
         this.title = title;
     }
