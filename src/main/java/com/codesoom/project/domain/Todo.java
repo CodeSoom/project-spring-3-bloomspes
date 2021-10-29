@@ -3,8 +3,10 @@ package com.codesoom.project.domain;
 import lombok.Builder;
 import lombok.Getter;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.Date;
 
@@ -12,14 +14,19 @@ import java.util.Date;
 @Getter
 @Entity
 public class Todo {
+
     @Id
-    @GeneratedValue
+    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column
     private String title;
 
+    @Column
     private String content;
 
+    @Column
     private Date createAt;
 
     @Builder
@@ -28,6 +35,13 @@ public class Todo {
         this.title = title;
         this.content = content;
         this.createAt = createAt;
+    }
+
+    @Override
+    public String toString() {
+        return "Todo [ id = " + id +
+                ", content = " + content +
+                ", createAt = " + createAt +"]";
     }
 
     public void changeData(Todo unit) {
