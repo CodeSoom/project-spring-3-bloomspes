@@ -6,6 +6,7 @@ import com.codesoom.project.errors.TodoNotFoundException;
 import com.codesoom.project.valueobject.TodoData;
 import com.github.dozermapper.core.Mapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -33,13 +34,13 @@ public class TodoService {
                 .orElseThrow(() -> new TodoNotFoundException(id));
     }
 
-    @Transactional
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Todo createTodo(TodoData todoData) {
         Todo todo = mapper.map(todoData, Todo.class);
         return todoRepository.save(todo);
     }
 
-    @Transactional
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Todo updateTodo(Long id, TodoData todoData) {
         Todo todo = findTodo(id);
         todo.changeData(mapper.map(todoData, Todo.class));
@@ -47,7 +48,7 @@ public class TodoService {
         return todo;
     }
 
-    @Transactional
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Todo deleteTodo(Long id) {
         Todo todo = findTodo(id);
         todoRepository.delete(todo);
